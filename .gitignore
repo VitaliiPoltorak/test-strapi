@@ -65,11 +65,11 @@ $RECYCLE.BIN/
 # Logs and databases
 ############################
 
-#.tmp
-#*.log
-#*.sql
-#*.sqlite
-#*.sqlite3
+.tmp
+*.log
+*.sql
+*.sqlite
+*.sqlite3
 
 
 ############################
@@ -108,10 +108,7 @@ coverage
 .env
 license.txt
 exports
-*.cache
+.strapi
 dist
 build
 .strapi-updater.json
-
-# path: ./.gitignore
-package-lock.json
