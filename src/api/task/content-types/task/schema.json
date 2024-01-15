@@ -1,0 +1,58 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tasks",
+  "info": {
+    "singularName": "task",
+    "pluralName": "tasks",
+    "displayName": "Task",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "dueDate": {
+      "type": "date"
+    },
+    "estimate": {
+      "type": "time"
+    },
+    "priority": {
+      "type": "string"
+    },
+    "tag": {
+      "type": "string"
+    },
+    "active": {
+      "type": "boolean"
+    },
+    "pinned": {
+      "type": "boolean"
+    },
+    "column": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::column.column",
+      "inversedBy": "tasks"
+    },
+    "columnID": {
+      "type": "string"
+    },
+    "checklists": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::checklist.checklist",
+      "mappedBy": "task"
+    },
+    "fingerprint": {
+      "type": "string"
+    },
+    "description": {
+      "type": "blocks"
+    }
+  }
+}
