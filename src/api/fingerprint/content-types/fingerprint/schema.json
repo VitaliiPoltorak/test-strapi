@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "fingerprints",
+  "info": {
+    "singularName": "fingerprint",
+    "pluralName": "fingerprints",
+    "displayName": "fingerprint"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "fingerprint": {
+      "type": "string"
+    }
+  }
+}

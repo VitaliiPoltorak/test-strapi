@@ -889,6 +889,36 @@ export interface ApiColumnColumn extends Schema.CollectionType {
   };
 }
 
+export interface ApiFingerprintFingerprint extends Schema.CollectionType {
+  collectionName: 'fingerprints';
+  info: {
+    singularName: 'fingerprint';
+    pluralName: 'fingerprints';
+    displayName: 'fingerprint';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    fingerprint: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::fingerprint.fingerprint',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::fingerprint.fingerprint',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiTaskTask extends Schema.CollectionType {
   collectionName: 'tasks';
   info: {
@@ -952,6 +982,7 @@ declare module '@strapi/types' {
       'api::board.board': ApiBoardBoard;
       'api::checklist.checklist': ApiChecklistChecklist;
       'api::column.column': ApiColumnColumn;
+      'api::fingerprint.fingerprint': ApiFingerprintFingerprint;
       'api::task.task': ApiTaskTask;
     }
   }
