@@ -53,6 +53,9 @@
     },
     "description": {
       "type": "blocks"
+    },
+    "order": {
+      "type": "integer"
     }
   }
 }
