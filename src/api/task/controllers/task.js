@@ -4,19 +4,67 @@
  * task controller
  */
 
+/**
+ * This module exports a function that creates a core controller for the 'api::task.task' entity.
+ * The controller has a single method, `updateOrder`, which updates the order of tasks.
+ *
+ * @module TaskController
+ * @requires @strapi/strapi
+ */
+
 const {createCoreController} = require('@strapi/strapi').factories;
 
+/**
+ * Creates a core controller for the 'api::task.task' entity.
+ *
+ * @function createCoreController
+ * @param {Object} strapi - The Strapi instance.
+ * @returns {Object} The core controller with the `updateOrder` method.
+ */
+
 module.exports = createCoreController('api::task.task', ({strapi}) => ({
+
+  /**
+   * Updates the order of tasks.
+   *
+   * @async
+   * @method updateOrder
+   * @param {Object} ctx - The context object.
+   * @param {Object} ctx.request - The request object.
+   * @param {string} ctx.request.id - The ID of the task to update.
+   * @param {Object} ctx.request.body.data - The data object.
+   * @param {number} ctx.request.body.data.order - The new order of the task.
+   * @param {string} ctx.request.body.data.columnId - The ID of the column the task belongs to.
+   * @returns {string} A message indicating the result of the operation.
+   */
+
   async updateOrder(ctx) {
     const {id} = ctx.params;
     const {body} = ctx.request;
-    const {order, columnId} = body.data;
+    const {order, columnId , prevColumnId} = body.data;
+
+    if ( !id ) {
+      return 'Id is missing'
+    }
 
     if ( !order || !columnId ) {
       return 'Order or columnId is missing'
     }
+
+    if ( prevColumnId && columnId !== prevColumnId) {
+      const prevTasks = await strapi.entityService.findMany('api::task.task', {
+        data: {columnId: prevColumnId},
+        sort: 'order:asc'
+      });
+
+      for (let i = 1; i <= prevTasks.length; i++) {
+        await strapi.entityService.update('api::task.task', `${taskPr.id}`, {data: {order: i}})
+      }
+    }
+
     const tasks = await strapi.entityService.findMany('api::task.task', {data: {columnId}});
     const updatedTaskOrder = tasks.find(task => task.id === +id).order
+
     if (order) {
       for (const task of tasks) {
         const taskId = task.id
