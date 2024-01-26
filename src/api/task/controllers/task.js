@@ -41,25 +41,14 @@ module.exports = createCoreController('api::task.task', ({strapi}) => ({
   async updateOrder(ctx) {
     const {id} = ctx.params;
     const {body} = ctx.request;
-    const {order, columnId , prevColumnId} = body.data;
+    const {order, columnId, prevColumnId} = body.data;
 
-    if ( !id ) {
+    if (!id) {
       return 'Id is missing'
     }
 
-    if ( !order || !columnId ) {
+    if (!order || !columnId) {
       return 'Order or columnId is missing'
-    }
-
-    if ( prevColumnId && columnId !== prevColumnId) {
-      const prevTasks = await strapi.entityService.findMany('api::task.task', {
-        data: {columnId: prevColumnId},
-        sort: 'order:asc'
-      });
-
-      for (let i = 1; i <= prevTasks.length; i++) {
-        await strapi.entityService.update('api::task.task', `${taskPr.id}`, {data: {order: i}})
-      }
     }
 
     const tasks = await strapi.entityService.findMany('api::task.task', {data: {columnId}});
@@ -70,7 +59,7 @@ module.exports = createCoreController('api::task.task', ({strapi}) => ({
         const taskId = task.id
         const taskOrder = task.order
         if (taskId === +id) {
-          await strapi.entityService.update('api::task.task', id, {data: {order:order}})
+          await strapi.entityService.update('api::task.task', id, {data: {order: order}})
         }
         if (taskId !== +id && taskOrder >= order && taskOrder < updatedTaskOrder) {
           await strapi.entityService.update('api::task.task', `${taskId}`, {data: {order: taskOrder + 1}})
@@ -80,6 +69,27 @@ module.exports = createCoreController('api::task.task', ({strapi}) => ({
         }
       }
     }
+
+    if (prevColumnId && columnId !== prevColumnId) {
+
+      const prevTasks = await strapi.entityService.findMany('api::task.task', {
+        sort: 'order',
+        filters: {
+          $and: [
+            {
+              columnID: `${prevColumnId}`,
+              order: {$not: order}
+            },
+          ],
+        },
+      });
+
+      for (let i = 1; i <= prevTasks.length; i++) {
+        await strapi.entityService.update('api::task.task', `${prevTasks[i - 1].id}`, {data: {order: i}})
+      }
+    }
+
+
     return 'Orders updated'
   },
 }));
