@@ -61,7 +61,8 @@ module.exports = createCoreController('api::task.task', ({strapi}) => ({
         ],
       },
     });
-    const prevTaskOrder = tasks.find(task => task.id === +id) ? tasks.find(task => task.id === +id).order : tasks.length+1
+    const prevTaskOrder = !prevColumnId ? tasks.find(task => task.id === +id).order : tasks.length+1
+
     if (order) {
 
       for (const task of tasks) {
@@ -93,6 +94,8 @@ module.exports = createCoreController('api::task.task', ({strapi}) => ({
           ],
         },
       });
+
+      console.log({newColTasks: tasks, prevColTasks: prevTasks, body: body.data})
 
       for (let i = 1; i <= prevTasks.length; i++) {
         await strapi.entityService.update('api::task.task', `${prevTasks[i - 1].id}`, {data: {order: i}})
