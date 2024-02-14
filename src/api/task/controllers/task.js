@@ -95,8 +95,6 @@ module.exports = createCoreController('api::task.task', ({strapi}) => ({
         },
       });
 
-      console.log({newColTasks: tasks, prevColTasks: prevTasks, body: body.data})
-
       for (let i = 1; i <= prevTasks.length; i++) {
         await strapi.entityService.update('api::task.task', `${prevTasks[i - 1].id}`, {data: {order: i}})
       }
