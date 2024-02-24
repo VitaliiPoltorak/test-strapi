@@ -56,6 +56,12 @@
     },
     "order": {
       "type": "integer"
+    },
+    "estimate_hour": {
+      "type": "integer"
+    },
+    "estimate_minute": {
+      "type": "integer"
     }
   }
 }

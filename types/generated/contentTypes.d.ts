@@ -952,6 +952,8 @@ export interface ApiTaskTask extends Schema.CollectionType {
     fingerprint: Attribute.String;
     description: Attribute.Blocks;
     order: Attribute.Integer;
+    estimate_hour: Attribute.Integer;
+    estimate_minute: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
