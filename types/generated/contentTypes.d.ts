@@ -871,6 +871,7 @@ export interface ApiColumnColumn extends Schema.CollectionType {
       'oneToMany',
       'api::task.task'
     >;
+    isNew: Attribute.Boolean;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

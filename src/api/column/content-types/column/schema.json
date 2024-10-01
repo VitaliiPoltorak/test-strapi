@@ -39,6 +39,9 @@
       "relation": "oneToMany",
       "target": "api::task.task",
       "mappedBy": "column"
+    },
+    "isNew": {
+      "type": "boolean"
     }
   }
 }
